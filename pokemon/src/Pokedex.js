@@ -4,15 +4,18 @@ import {
   CardContent,
   CardMedia,
   Grid,
+  InputBase,
   LinearProgress,
+  TextField,
   Toolbar,
   Typography,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import SearchIcon from "@material-ui/icons/Search";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   mainPageContainer: {
     paddingTop: "20px",
     paddingLeft: "50px",
@@ -24,7 +27,10 @@ const useStyles = makeStyles({
   cardContent: {
     textAlign: "center",
   },
-});
+  searchContainer: {
+    display: "flex",
+  },
+}));
 
 const Pokedex = () => {
   const classes = useStyles();
@@ -72,7 +78,12 @@ const Pokedex = () => {
   return (
     <div>
       <AppBar position="static">
-        <Toolbar />
+        <Toolbar>
+          <div className={classes.searchContainer}>
+            <SearchIcon className={classes.searchIcon} />
+            <TextField className={classes.searchField} />
+          </div>
+        </Toolbar>
       </AppBar>
       {pokemonData ? (
         <Grid container spacing={2} className={classes.mainPageContainer}>
