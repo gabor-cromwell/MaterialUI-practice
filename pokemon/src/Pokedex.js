@@ -1,40 +1,20 @@
 import {
   AppBar,
-  Card,
-  CardContent,
-  CardMedia,
   Grid,
-  InputBase,
   LinearProgress,
   TextField,
   Toolbar,
-  Typography,
 } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import SearchIcon from "@material-ui/icons/Search";
+import { PokeStyle } from "./PokeStyle";
+import PokeCard from "./PokeCard";
 
-const useStyles = makeStyles((theme) => ({
-  mainPageContainer: {
-    paddingTop: "20px",
-    paddingLeft: "50px",
-    paddingRight: "50px",
-  },
-  cardMedia: {
-    margin: "auto",
-  },
-  cardContent: {
-    textAlign: "center",
-  },
-  searchContainer: {
-    display: "flex",
-  },
-}));
-
-const Pokedex = () => {
-  const classes = useStyles();
+const PokeDex = () => {
+  const classes = PokeStyle();
   const [pokemonData, setPokemonData] = useState();
+  const [filter, setFilter] = useState("");
 
   useEffect(() => {
     async function fetchData() {
@@ -54,25 +34,9 @@ const Pokedex = () => {
     fetchData();
   }, []);
 
-  const getPokemonCard = (pokemon) => {
-    const { id, name, picture } = pokemon;
-
-    return (
-      <Grid item xs={12} sm={6} md={4} lg={3} key={id}>
-        <Card>
-          <CardMedia
-            className={classes.cardMedia}
-            image={picture}
-            style={{ width: "130px", height: "130px" }}
-          />
-          <CardContent className={classes.cardContent}>
-            <Typography>
-              {id}. {name[0].toUpperCase() + name.slice(1)}
-            </Typography>
-          </CardContent>
-        </Card>
-      </Grid>
-    );
+  const handleChange = (event) => {
+    setFilter(event.target.value);
+    console.log(event.target.value);
   };
 
   return (
@@ -81,13 +45,20 @@ const Pokedex = () => {
         <Toolbar>
           <div className={classes.searchContainer}>
             <SearchIcon className={classes.searchIcon} />
-            <TextField className={classes.searchField} />
+            <TextField
+              className={classes.searchField}
+              label="Search..."
+              variant="standard"
+              onChange={handleChange}
+            />
           </div>
         </Toolbar>
       </AppBar>
       {pokemonData ? (
         <Grid container spacing={2} className={classes.mainPageContainer}>
-          {pokemonData.map((pokemon) => getPokemonCard(pokemon))}
+          {pokemonData.map((pokemon) => (
+            <PokeCard pokemon={pokemon} filter={filter} />
+          ))}
         </Grid>
       ) : (
         <LinearProgress color="secondary" />
@@ -96,4 +67,4 @@ const Pokedex = () => {
   );
 };
 
-export default Pokedex;
+export default PokeDex;
