@@ -4,4 +4,4 @@
 <h1 align="center">MaterialUI practice </h1>
              
 
-Practicing how to use the MaterialUI version 4 library on a simple React application.</div>
+Practicing how to use the MaterialUI version 4 library on a simple React application.</div>            
